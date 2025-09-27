@@ -18,9 +18,13 @@ public class PlayerMoment : MonoBehaviour
     /// </summary>
     private float intervalTime;
     /// <summary>
-    /// Indica la velocidad lateral del jugador.
+    /// Represeta la estrategia de movimiento del jugador.
     /// </summary>
-    private float velocityLateral;
+    private IMovementStrategy movementStrategy;
+    /// <summary>
+    /// Representa a la clase player.
+    /// </summary>
+    private Player player;
     #endregion
 
     #region Ciclo de vida del script
@@ -29,13 +33,15 @@ public class PlayerMoment : MonoBehaviour
         forceToApply = new Vector3(0, 0, 250);
         timeSinceLastForce = 0f;
         intervalTime = 2f;
-        velocityLateral = 2f;
+        player = new Player(5f,5f);
+   
+        SetMovementStrategy(new SmoothMovement());
+        //SetMovementStrategy(new AcelereteMovement());
 
     }
     private void Update()
     {
-        float direction = Input.GetAxis("Horizontal");
-        transform.Translate(direction * velocityLateral * Time.deltaTime,0,0);
+        MovePlayer();
     }
 
     //logica de física
@@ -47,6 +53,17 @@ public class PlayerMoment : MonoBehaviour
             GetComponent<Rigidbody>().AddForce(forceToApply);
             timeSinceLastForce = 0f;
         }
+    }
+    #endregion
+
+    #region Logica del script
+    public void SetMovementStrategy(IMovementStrategy movementStrategy)
+    {
+        this.movementStrategy = movementStrategy;
+    }
+    public void MovePlayer()
+    {
+        movementStrategy.Move(transform, player);
     }
     #endregion
 }
