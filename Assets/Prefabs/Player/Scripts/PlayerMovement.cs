@@ -17,6 +17,10 @@ public class PlayerMoment : MonoBehaviour
     /// indica el intervalo de tiempo entre cada aplicación de fuerza.
     /// </summary>
     private float intervalTime;
+    /// <summary>
+    /// Indica la velocidad lateral del jugador.
+    /// </summary>
+    private float velocityLateral;
     #endregion
 
     #region Ciclo de vida del script
@@ -25,10 +29,16 @@ public class PlayerMoment : MonoBehaviour
         forceToApply = new Vector3(0, 0, 250);
         timeSinceLastForce = 0f;
         intervalTime = 2f;
+        velocityLateral = 2f;
+
+    }
+    private void Update()
+    {
+        float direction = Input.GetAxis("Horizontal");
+        transform.Translate(direction * velocityLateral * Time.deltaTime,0,0);
     }
 
-    // Update is called once per frame
- 
+    //logica de física
     private void FixedUpdate()
     {
         timeSinceLastForce += Time.fixedDeltaTime;
