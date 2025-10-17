@@ -2,7 +2,7 @@ using UnityEngine;
 /// <summary>
 /// Permite el comportamiento del movimiento del jugador.
 /// </summary>
-public class PlayerMoment : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     #region Atributes
     /// <summary>
@@ -39,10 +39,7 @@ public class PlayerMoment : MonoBehaviour
         //SetMovementStrategy(new AcelereteMovement());
 
     }
-    private void Update()
-    {
-        MovePlayer();
-    }
+
 
     //logica de física
     private void FixedUpdate()
@@ -61,9 +58,9 @@ public class PlayerMoment : MonoBehaviour
     {
         this.movementStrategy = movementStrategy;
     }
-    public void MovePlayer()
+    public void MovePlayer(float input)
     {
-        movementStrategy.Move(transform, player);
+        movementStrategy.Move(transform, player,input);
     }
     #endregion
 }
